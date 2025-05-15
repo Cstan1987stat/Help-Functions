@@ -1,23 +1,31 @@
-# Creating function to one-hot encode a categorical variable and then scale it
-# - Data represents the data frame
-# - Column represents the categorical column you want to be transformed
+# Function to one-hot encode a categorical variable and scale the encoded columns
+# - data: the data frame
+# - column: the name of the categorical column to transform
 scale_one_hot <- function(data, column){
-  # Retrieve all of the categories for the column from data
-  # - factor makes sure that the variable is categorical, but highly recommend making sure it is before hand
+  
+  # Get all unique categories in the column
+  # - factor() ensures the variable is treated as categorical; confirm this beforehand if needed
   list_categ <- levels(factor(data[[column]]))
-  # Calculating how many categories are in column
+  
+  # Get the number of categories
   num_categ <- length(list_categ)
-  # Looping through each category 
+  
+  # Loop through each category
   for (cat in list_categ){
-    # Creating a new column name with the old column name, an underscore, followed by the specific category (cat).
-    new_col_name <- paste(column,cat, sep='_')
-    # Creating new column in data where a 1 represents original column is equal to the specific category.
+    
+    # Create a new column name in the format: column_category
+    new_col_name <- paste(column, cat, sep = '_')
+    
+    # Create a one-hot encoded column: 1 if equal to category, else 0
     data[[new_col_name]] <- as.numeric(data[[column]] == cat)
-    # Divided the new column by the square root of the number of categories
+    
+    # Scale the new column by dividing by the square root of the number of categories
     data[[new_col_name]] <- data[[new_col_name]] / sqrt(num_categ)
   }
-  # Setting the initial column in data to NULL
+
+  # Remove the original categorical column
   data[[column]] <- NULL
-  # Return data
-  return(data) 
+
+  # Return the transformed data frame
+  return(data)
 }
