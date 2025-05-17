@@ -1,7 +1,7 @@
 # Function to one-hot encode a categorical variable and scale the encoded columns
 # - data: the data frame
 # - column: the name of the categorical column to transform
-scale_one_hot <- function(data, column){
+scale_one_hot_encoder <- function(data, column){
   
   # Get all unique categories in the column
   # - factor() ensures the variable is treated as categorical; confirm this beforehand if needed
